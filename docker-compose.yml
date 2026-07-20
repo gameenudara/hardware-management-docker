@@ -31,6 +31,12 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
+      # printer-agent runs on the host machine, outside Docker
+      PRINTER_AGENT_URL: ${PRINTER_AGENT_URL:-http://host.docker.internal:9977}
+      PRINTER_AGENT_TOKEN: ${PRINTER_AGENT_TOKEN}
+    extra_hosts:
+      # no-op on Docker Desktop (Windows/Mac); required on plain Linux Docker
+      - "host.docker.internal:host-gateway"
     depends_on:
       db:
         condition: service_healthy
